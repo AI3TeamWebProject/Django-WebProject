@@ -1,31 +1,76 @@
 from django.db import models
-from product.models import ProductColor, ProductSize, Category
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.db.models import Sum
+from django.shortcuts import reverse
+from django_countries.fields import CountryField
 
-# Create your models here.
 
-class Product(models.Model):
-    p_name = models.CharField(max_length=15)  #이름
-    p_category = models.ForeignKey(Category, on_delete=models.CASCADE)  #카테고리
-    p_soldOut = models.BooleanField(default=True)    # 품절
-    p_summary_desc = models.CharField(max_length=70)   #요약 정보
-    p_simple_desc = models.CharField(max_length=140)    # 간단정보
-    p_detail_desc = models.CharField(max_length=300)    #상세정보
-    p_supply_price = models.IntegerField(default=0)   #공급가
-    p_real_price = models.IntegerField(default=0)     #실제 판매가
-    p_discount = models.IntegerField(default=0)       # 할인율
-    p_color = models.ForeignKey(ProductColor, on_delete=models.CASCADE)      # 색상
-    p_size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)       # 사이즈
-    p_register_date = models.DateTimeField(auto_now=True)      #등록일
+# 아래 CHOICES들의 쓰임새&의미는 아직 파악하지 않은 상태입니다.
+# 일단 에러방지용으로 넣어두겠습니다.
 
-class ProductColor(models.Model):
-    # id에 맞춰서 컬러를 배분.
-    c_color = models.CharField(max_length=20)
+CATEGORY_CHOICES = (
+    ('S', 'Shirt'),
+    ('SW', 'Sport wear'),
+    ('OW', 'Outwear')
+)
 
-class ProductSize(models.Model):
-    # id에 맞춰서 사이즈를 배분
-    s_size = models.CharField(max_length=20)
+LABEL_CHOICES = (
+    ('P', 'primary'),
+    ('S', 'secondary'),
+    ('D', 'danger')
+)
 
-class Category(models.Model):
-    # 카테고리 id에 맞춰서 중분류 명을 배분.
-    c_category = models.CharField(max_length=20)
+ADDRESS_CHOICES = (
+    ('B', 'Billing'),
+    ('S', 'Shipping'),
+)
+
+####
+
+class Item(models.Model):
+    title = models.CharField(max_length=100)
+    price = models.FloatField()
+    # discount_price = models.FloatField(blank=True, null=True)
+    # category = models.CharField(choices=CATEGORY_CHOICES, max_length=20)
+    # label = models.CharField(choices=LABEL_CHOICES, max_length=20)
+    # slug = models.SlugField()
+    # description = models.TextField()
+    # image = models.ImageField()
+
+    def __str__(self):
+        return self.title
+
+# slug
+# Red Ribbon Dress 라는 대소문자와 띄어쓰기가 혼합된 제품명을
+# red-ribbon-dress 로 변환하여 url에 표시하기 위해 사용하는 기능으로 파악됩니다.
+# 가령 메인화면에서 제품 클릭시의 request url이 detail/<slug>/<int:item_id>/ 이라면,
+# http://~~/detail/red-ribbon-dress/27/ 로 표시됩니다.
+# 필수 기능은 아니지만 종종 사용되는 개념같아 적용시켜 보겠습니다.
+
+
+
+
+# Item -> OrderItem -> Order 의 순서를 만듦으로써
+# 장바구니를 컨트롤 할 수 있는 것으로 파악됩니다.
+
+class OrderItem(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
+
+# 장바구니에 들어갈 주문정보
+class Order(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    items = models.ManyToManyField(OrderItem)
+    start_date = models.DateTimeField(auto_now_add = True)
+    ordered_date = models.DateTimeField()
+    ordered = models.BooleanField(default=False)
+    def __str__(self):
+        return self.user.username
+
+
 

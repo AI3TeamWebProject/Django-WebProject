@@ -38,7 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap4'
+
+    'product.apps.ProductConfig',
+    'bootstrap4',
+    'debug_toolbar',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'crispy_forms',
+    'django_countries',
+
 ]
 
 MIDDLEWARE = [
@@ -49,6 +59,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 추가
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
+
 ]
 
 ROOT_URLCONF = 'webstore.urls'
@@ -87,7 +100,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'webstore_db',
         'USER': 'root',
-        # 'PASSWORD': ,
+        'PASSWORD': 'rkswkd!123',
         'HOST': '127.0.0.1',
         'PORT': '3306'
     }
@@ -142,3 +155,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#
+SITE_ID = 1
