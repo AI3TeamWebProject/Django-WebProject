@@ -1,5 +1,5 @@
 from django.db import models
-
+from users.models import Member
 # Create your models here.
 
 
@@ -43,5 +43,4 @@ class Product(models.Model):
 
     def __str__(self):
         return self.p_name
-
 
