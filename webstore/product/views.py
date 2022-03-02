@@ -1,12 +1,10 @@
 from product.models import Product
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
-
-# Create your views here.
 
 
-def p_detail(request):
+def p_detail(request, product_id):
+    # item = get_object_or_404(Product, pk=product_id)
     context = {
         'products': Product.objects.all()
     }
-    return render(request, "detail.html", context)
+    return render(request, "product/detail.html", context)
