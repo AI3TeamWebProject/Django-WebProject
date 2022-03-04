@@ -1,7 +1,15 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from users.forms import UserForm
+from common.forms import UserForm, LoginForm
+from .models import Member
 
+
+def login(request):
+    login_form = LoginForm()
+    context = {
+        "my_form": login_form
+    }
+    return render(request, 'users/login.html', context)
 
 def signup(request):
     """
