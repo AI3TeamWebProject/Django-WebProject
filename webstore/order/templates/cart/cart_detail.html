@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {% load bootstrap4 %}
 
 
@@ -24,10 +24,10 @@
     <tbody>
     {% for cart_item in cart_items %}
         <tr>
-            <td>{{ cart_item.product.title }}</td>
-            <td>{{ cart_item.product.price }}</td>
+            <td>{{ cart_item.product.p_name }}</td>
+            <td>{{ cart_item.product.p_supply_price }}</td>
             <td>{{ cart_item.quantity }}</td>
-            <td><img src="{{ cart_item.product.image.url }}" height="100" width="100"></td>
+            <td><img src="{{ cart_item.product.p_image_thumb.url }}" height="100" width="100"></td>
             <td><a class="btn btn-secondary" href="{% url 'order:remove_cart' cart_item.product.pk %}">감소</a></td>
             <td><a class="btn btn-secondary" href="{% url 'order:plus_cart' cart_item.product.pk %}">증가</a></td>
             <td><a class="btn btn-secondary" href="{% url 'order:delete_cart' cart_item.product.pk %}">삭제</a></td>
@@ -42,7 +42,7 @@
         </button>
 
         <button class="btn btn-indigo">
-            <a class="btn btn-info" role="button" href="{% url 'product:ItemList' %}">list</a>
+            <a class="btn btn-info" role="button" href="{% url 'product:home' %}">list</a>
         </button>
     </div>
 {% endblock %}

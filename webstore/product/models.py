@@ -1,8 +1,6 @@
 from django.db import models
 from users.models import Member
 
-
-
 CATEGORY_CHOICES = (
     ('S', 'Shirt'),
     ('SW', 'Sport wear'),

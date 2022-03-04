@@ -1,0 +1,25 @@
+{% extends 'base2.html' %}
+
+{% block html_header %}
+{% endblock %}
+
+{% block html_body %}
+<div class="container">
+    <h1>검색 결과</h1>
+    <div class="m-1">
+        검색어 : <b>"{{ query }}"</b>
+    </div>
+
+    {% for product in products %}
+        <div class="card" style="width: 18rem;">
+            <p class="card-text">{{ product.p_name }}</p>
+            <p class="card-text">{{ product.p_category }}</p>
+            <p class="card-text">{{ product.p_real_price }}</p>
+            <p class="card-text">{{ product.p_summary_desc }}</p>
+            <p class="card-text">{{ product.p_soldOut }}</p>
+
+        </div>
+    {% endfor %}
+
+</div>
+{%  endblock %}
