@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}
+    DETAIL
+{% endblock title %}
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" type='text/css' href="{% static 'product/style.css' %}">
+    <div class="content">
+        <div class="detailArea">
+            <div class="product_img_area">
+                <div class="key_img">
+                    <img src = '{{ product.p_image_thumb.url }}' width='300' />
+                </div>
+            </div>
+            <div class="infoArea">
+                <h3>{{ product.p_name }}</h3>
+                <div class="detailinfo">
+                    <p>{{ product.p_summary_desc }}</p>
+                </div>
+
+                <div class="detail_payment">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th>
+                                <span>
+                                    PRICE
+                                </span>
+                            </th>
+                            <td>
+                                <span>
+                                    <strong>
+                                        {{ product.p_price }} 원
+                                    </strong>
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <span>
+                                    POINT
+                                </span>
+                            </th>
+                            <td>
+                                <span>
+                                    <strong>
+                                        {{ product.p_discount }} 원
+                                    </strong>
+                                </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                        {% if product.p_stock > 0 %}
+                            <table>
+                                <tbody class="product_option">
+                                <tr class="product_quantity">
+                                    <th>
+                                        수량
+                                    </th>
+                                    <td>
+                                        <span>
+                                            <strong>
+                                                {{ product.p_stock }} 원
+                                            </strong>
+                                </span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <table>
+                                <tbody class="product_option">
+                                <tr class="product_quantity">
+                                    <th>
+                                        SOLD OUT
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        {% endif %}
+                </div>
+
+                <div class="payment">
+                    <div class="btnArea">
+                        <ul>
+                            {% if product.quantity > 0 %}
+                                <li class="cart">
+                                    <button type="submit" name="add_cart" value="add_cart">+ ADD SHOPPING CART</button>
+                                    {% csrf_token %}
+                                </li>
+                                <li class="buy">
+                                    <button type="submit" name="buy" value="buy_it_now">BUY IT NOW</button>
+                                    {% csrf_token %}
+                                </li>
+                                {% if messages %}
+                                    <ul class="messages">
+                                        {% for message in messages %}
+                                            <li class="{{ message.tags }}">
+                                                {{ message }}<br>
+                                                <a href="{% url "shop:cart" Member.pk %}">장바구니로 이동</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            {% else %}
+                                <li class="soldout">
+                                    SOLD OUT (X)
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+{% endblock content %}
