@@ -1,46 +1,66 @@
 from django.db import models
 from users.models import Member
-# Create your models here.
 
 
-class Category(models.Model):
-    # 카테고리 id에 맞춰서 중분류 명을 배분.
-    c_category = models.CharField(max_length=20)
 
-    def __str__(self):
-        return self.c_category
+CATEGORY_CHOICES = (
+    ('S', 'Shirt'),
+    ('SW', 'Sport wear'),
+    ('OW', 'Outwear')
+)
 
+LABEL_CHOICES = (
+    ('P', 'primary'),
+    ('S', 'secondary'),
+    ('D', 'danger')
+)
 
-class ProductColor(models.Model):
-    # id에 맞춰서 컬러를 배분.
-    c_color = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.c_color
-
-
-class ProductSize(models.Model):
-    # id에 맞춰서 사이즈를 배분
-    s_size = models.CharField(max_length=20)
-
-    def __str__(self):
-        return self.s_size
+ADDRESS_CHOICES = (
+    ('B', 'Billing'),
+    ('S', 'Shipping'),
+)
 
 
 class Product(models.Model):
-    p_name = models.CharField(max_length=15)  #이름
-    p_category = models.ForeignKey(Category, on_delete=models.CASCADE)  #카테고리
-    p_soldOut = models.BooleanField(default=True)    # 품절
-    p_summary_desc = models.CharField(max_length=70)   #요약 정보
-    p_simple_desc = models.CharField(max_length=140)    # 간단정보
-    p_detail_desc = models.CharField(max_length=300)    #상세정보
-    p_supply_price = models.IntegerField(default=0)   #공급가
-    p_real_price = models.IntegerField(default=0)     #실제 판매가
-    p_discount = models.IntegerField(default=0)       # 할인율
-    p_color = models.ForeignKey(ProductColor, on_delete=models.CASCADE)      # 색상
-    p_size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)       # 사이즈
-    p_register_date = models.DateTimeField(auto_now=True)      #등록일
+    p_name = models.CharField(max_length=30)
+    p_category = models.CharField(choices=CATEGORY_CHOICES, max_length=3)
+    p_soldOut = models.BooleanField(default=False)
+    p_summary_desc = models.CharField(max_length=70)
+    p_simple_desc = models.CharField(max_length=140)
+    p_detail_desc = models.CharField(max_length=500)
+    p_supply_price = models.IntegerField(default=0)
+    p_price = models.IntegerField(default=0)
+    p_discount = models.IntegerField(default=0)
+    p_register_date = models.DateTimeField(auto_now=True)
+    p_image_thumb = models.ImageField(upload_to='static/img/')
+    p_image_desc = models.ImageField(upload_to='static/img/')
+    p_stock = models.IntegerField(verbose_name='재고')
+    # p_color = models.ForeignKey(ProductColor, on_delete=models.CASCADE)
+    # p_size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.p_name
+
+    class Meta:
+        verbose_name = '상품'
+        verbose_name_plural = '상품'
+        ordering = ['-p_register_date', ]
+
+
+class Review(models.Model):
+    r_title = models.CharField(max_length=50)  # 글 제목
+    r_author = models.ForeignKey(Member, on_delete=models.CASCADE)
+    r_content = models.CharField(max_length=200)  # 글 내용
+    r_date = models.DateTimeField(auto_now=True)  # 글 작성시간
+    r_image = models.ImageField(upload_to='static/img/')
+
+
+    def __str__(self):
+        return self.r_title
+
+    class Meta:
+        verbose_name = '리뷰'
+        verbose_name_plural = '리뷰'
+        ordering = ['-r_date', ]
+
 
