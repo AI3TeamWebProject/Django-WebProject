@@ -69,6 +69,9 @@
                                 </span>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <a class="btn btn-secondary" href="{% url 'order:add_cart' product.pk %}">Add</a>
+                                </tr>
                                 </tbody>
                             </table>
                         {% else %}
@@ -83,7 +86,12 @@
                             </table>
                         {% endif %}
                 </div>
-
+                <div class="row">
+                <div class="description col-sm-9">
+                    <img src="{{ product.p_image_desc.url }}">
+                    <p>{{ product.p_detail_desc }}</p>
+                </div>
+                </div>
                 <div class="payment">
                     <div class="btnArea">
                         <ul>

@@ -22,14 +22,12 @@ from product.models import Product
 #   return render(request, 'search/post_search.html', {'posts':posts, 'Board':board, 'search':search})
 
 
-
 def searchResult(request):
   if 'keyword' in request.GET:
     query = request.GET.get('keyword')
     products = Product.objects.all().filter(
       Q(p_name__icontains=query) |
-      Q(p_summary_desc__icontains=query) |
-      Q(p_category__c_category__icontains=query)
+      Q(p_summary_desc__icontains=query)
     )
 
   return render(request, 'search/search_result.html', {"query": query, "products": products})

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block html_header %}
+
+{% endblock %}
+
+{% block html_body %}
+    <h1>검색 테스트</h1>
+
+    <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <form class="d-flex" action="{% url 'search:s_results' %}" method="get">
+      <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search" name="keyword">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+{% endblock %}

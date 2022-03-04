@@ -26,7 +26,7 @@ def login_process(request):
 
         if user is not None:
             django_login(request, user)   # 로그인 처리
-            return redirect('index')
+            return redirect('home')
         else:
             return HttpResponse('로그인 실패. 다시 접속해 주세요!')
 
@@ -43,7 +43,8 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)  # 사용자 인증
             login(request)  # 로그인
-            return redirect('index')
+            return redirect('home')
     else:
         form = UserForm()
     return render(request, 'users/signup.html', {'form': form})
+

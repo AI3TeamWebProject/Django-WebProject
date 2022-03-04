@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {% load bootstrap4 %}
 
 {% block html_heaher %}
@@ -220,13 +220,13 @@
               {% for items in order_item %}
             <li class="list-group-item d-flex justify-content-between lh-condensed">
               <div>
-                <h6 class="my-0">{{ items.product.title }}</h6>
+                <h6 class="my-0">{{ items.product.p_name }}</h6>
                 <small class="text-muted">{{ items.product.slug }}</small>
               </div>
                 <div>
                     <span>수량 : {{ items.quantity }}</span>
                 </div>
-              <span class="text-muted">{{ items.product.price }}</span>
+              <span class="text-muted">{{ items.product.p_supply_price }}</span>
             </li>
               {% endfor %}
 {#            <li class="list-group-item d-flex justify-content-between lh-condensed">#}

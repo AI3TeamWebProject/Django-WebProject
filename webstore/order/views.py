@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from product.models import Item
+from product.models import Product
 from django.http import HttpResponse
 from users.models import Member
 from order.models import Cart, CartItem
@@ -22,7 +22,7 @@ def _cart_id(request):
 
 
 def add_cart(request, item_id):
-  product = Item.objects.get(id=item_id)
+  product = Product.objects.get(id=item_id)
   try:
       cart = Cart.objects.get(cart_id=_cart_id(request))
   except Cart.DoesNotExist:
@@ -50,7 +50,7 @@ def cart_detail(request, total=0, counter=0, cart_items = None):
     cart = Cart.objects.get(cart_id=_cart_id(request))
     cart_items = CartItem.objects.filter(cart=cart, active=True)
     for cart_item in cart_items:
-      total += (cart_item.product.price * cart_item.quantity)
+      total += (cart_item.product.p_supply_price * cart_item.quantity)
       counter += cart_item.quantity
   except ObjectDoesNotExist:
     pass
@@ -60,7 +60,7 @@ def cart_detail(request, total=0, counter=0, cart_items = None):
 
 def cart_remove(requset, item_id):
     cart = Cart.objects.get(cart_id=_cart_id(requset))
-    product = get_object_or_404(Item, id=item_id)
+    product = get_object_or_404(Product, id=item_id)
     cart_item = CartItem.objects.get(product=product, cart=cart)
     if cart_item.quantity >1:
         cart_item.quantity -= 1
@@ -72,15 +72,16 @@ def cart_remove(requset, item_id):
 
 def cart_plus(request, item_id):
     cart = Cart.objects.get(cart_id=_cart_id(request))
-    product = get_object_or_404(Item, id=item_id)
+    product = get_object_or_404(Product, id=item_id)
     cart_item = CartItem.objects.get(product=product, cart=cart)
     cart_item.quantity += 1
     cart_item.save()
     return redirect('order:cart_detail')
 
+
 def cart_delete(request, item_id):
     cart = Cart.objects.get(cart_id=_cart_id(request))
-    product = get_object_or_404(Item, id=item_id)
+    product = get_object_or_404(Product, id=item_id)
     cart_item = CartItem.objects.get(product=product, cart=cart)
     cart_item.delete()
     return redirect('order:cart_detail')
@@ -91,7 +92,7 @@ def total_price(request):
     cart_item = CartItem.objects.filter(cart=cart)
     total = 0
     for items in cart_item:
-        total += (items.product.price * items.quantity)
+        total += (items.product.p_supply_price * items.quantity)
 
     return total
 

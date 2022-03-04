@@ -1,5 +1,5 @@
 from django.db import models
-from product.models import Item
+from product.models import Product
 from users.models import Member
 
 # Create your models here.
@@ -38,7 +38,7 @@ class Cart(models.Model):
         return self.cart_id
 
 class CartItem(models.Model):
-    product = models.ForeignKey(Item, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     active = models.BooleanField(default=True)
@@ -46,9 +46,6 @@ class CartItem(models.Model):
     class Meta:
         db_table = "CartItem"
 
-    def sub_total(self):
-        return self.product.price * self.quantity
-
     def __str__(self):
-        return self.product.title
+        return self.product.p_name
 

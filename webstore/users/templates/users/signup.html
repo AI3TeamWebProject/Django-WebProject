@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load bootstrap4 %}
+
 {% block content %}
 <div class="container my-3">
     <div class="row my-3">
@@ -11,7 +13,7 @@
     </div>
     <form method="post" class="post-form" action="{% url 'users:signup' %}">
         {% csrf_token %}
-        {% include "form_errors.html" %}
+        {% include "users/form_errors.html" %}
         <div class="form-group">
             <label for="username">사용자 이름</label>
             <input type="text" class="form-control" name="username" id="username"
