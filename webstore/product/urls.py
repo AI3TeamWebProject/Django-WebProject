@@ -7,6 +7,6 @@ from django.views.generic import TemplateView
 app_name = 'product'
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('', views.index, name='home'),
     path('product/<int:product_id>/', views.p_detail, name="p_detail"),
 ]
