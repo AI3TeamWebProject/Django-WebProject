@@ -1,131 +1,140 @@
 {% extends "base.html" %}
 
-{% block title %}
-    DETAIL
-{% endblock title %}
-
 {% block content %}
-    {% load static %}
-    <link rel="stylesheet" type='text/css' href="{% static 'product/style.css' %}">
-    <div class="content">
-        <div class="detailArea">
-            <div class="product_img_area">
-                <div class="key_img">
-                    <img src = '{{ product.p_image_thumb.url }}' width='300' />
-                </div>
-            </div>
-            <div class="infoArea">
-                <h3>{{ product.p_name }}</h3>
-                <div class="detailinfo">
-                    <p>{{ product.p_summary_desc }}</p>
-                </div>
 
-                <div class="detail_payment">
-                    <table>
-                        <tbody>
-                        <tr>
-                            <th>
-                                <span>
-                                    PRICE
-                                </span>
-                            </th>
-                            <td>
-                                <span>
-                                    <strong>
-                                        {{ product.p_price }} 원
-                                    </strong>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>
-                                <span>
-                                    POINT
-                                </span>
-                            </th>
-                            <td>
-                                <span>
-                                    <strong>
-                                        {{ product.p_discount }} 원
-                                    </strong>
-                                </span>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+  <main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
 
-                        {% if product.p_stock > 0 %}
-                            <table>
-                                <tbody class="product_option">
-                                <tr class="product_quantity">
-                                    <th>
-                                        수량
-                                    </th>
-                                    <td>
-                                        <span>
-                                            <strong>
-                                                {{ product.p_stock }} 원
-                                            </strong>
-                                </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <a class="btn btn-secondary" href="{% url 'order:add_cart' product.pk %}">Add</a>
-                                </tr>
-                                </tbody>
-                            </table>
-                        {% else %}
-                            <table>
-                                <tbody class="product_option">
-                                <tr class="product_quantity">
-                                    <th>
-                                        SOLD OUT
-                                    </th>
-                                </tr>
-                                </tbody>
-                            </table>
-                        {% endif %}
-                </div>
-                <div class="row">
-                <div class="description col-sm-9">
-                    <img src="{{ product.p_image_desc.url }}">
-                    <p>{{ product.p_detail_desc }}</p>
-                </div>
-                </div>
-                <div class="payment">
-                    <div class="btnArea">
-                        <ul>
-                            {% if product.quantity > 0 %}
-                                <li class="cart">
-                                    <button type="submit" name="add_cart" value="add_cart">+ ADD SHOPPING CART</button>
-                                    {% csrf_token %}
-                                </li>
-                                <li class="buy">
-                                    <button type="submit" name="buy" value="buy_it_now">BUY IT NOW</button>
-                                    {% csrf_token %}
-                                </li>
-                                {% if messages %}
-                                    <ul class="messages">
-                                        {% for message in messages %}
-                                            <li class="{{ message.tags }}">
-                                                {{ message }}<br>
-                                                <a href="{% url "shop:cart" Member.pk %}">장바구니로 이동</a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                {% endif %}
-                            {% else %}
-                                <li class="soldout">
-                                    SOLD OUT (X)
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                </div>
+      <!--Grid row-->
+      <div class="row wow fadeIn">
 
-            </div>
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/14.jpg" class="img-fluid" alt="">
+
         </div>
+        <!--Grid column-->
 
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <!--Content-->
+          <div class="p-4">
+          <h1><p>{{ product.p_name }}</p></h1>
+
+            <div class="mb-3">
+              <a href="">
+                <span class="badge purple mr-1">{{ product.p_category }}</span>
+                  <--- 카테고리(Shirt)입니다.
+              </a>
+            </div>
+
+            <p class="lead">
+              {% if product.p_discount %}
+              <span class="mr-1">
+                <del>{{ product.p_price }} 원</del><-- 할인'전'가격
+              </span><br>
+              <span><b>{{ product.p_discount }} 원</b></span> <-- 할인'된'가격
+              {% else %}
+              <span>{{ product.p_price }} 원</span>
+              {% endif %}
+            </p>
+
+            <p class="lead font-weight-bold">Preview</p>
+            <p>{{ product.p_simple_desc }}</p><br>
+
+
+
+            {% comment %} <form class="d-flex justify-content-left">
+              <!-- Default input -->
+              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+              <button class="btn btn-primary btn-md my-0 p" type="submit">
+                Add to cart
+                <i class="fas fa-shopping-cart ml-1"></i>
+              </button>
+
+            </form> {% endcomment %}
+            <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
+              Add to cart
+              <i class="fas fa-shopping-cart ml-1"></i>
+            </a>
+            <a href="{{ object.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
+              Remove from cart
+            </a>
+
+          </div>
+          <!--Content-->
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <hr>
+
+      <!--Grid row-->
+      <div class="row d-flex justify-content-center wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 text-center">
+
+          <h4 class="my-4 h4">DETAIL INFO</h4>
+
+          <p>
+              현재 HTML위치는 product/detail.html 입니다.
+              <br><br>
+              장바구니 관련 버튼은 링크수정이 필요합니다.
+              <br><br>
+              이미지 링크들을 수정하지 않아 예시 이미지들이 표시되는 중입니다.
+              ADMIN에서 이미지 등록할 때 여러장을 등록할 수 있는 기능이 필요합니다.
+              <br>OR<br>
+              기능추가 없이 여러장을 한 장 으로 붙여서 업로드하면 됩니다.<br><br>
+              {{ product.p_detail_desc }} <-- admin에서 등록된 텍스트입니다.
+              <br><br>
+              하단 푸터는 footer.html을 확인하시면 됩니다.
+              <br><br>
+
+          </p>
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-12 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
 
     </div>
+  </main>
+
 {% endblock content %}
