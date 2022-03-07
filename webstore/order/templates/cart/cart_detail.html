@@ -3,46 +3,169 @@
 
 
 {% block html_header %}
-<script src="/static/js/order_btn.js"></script>
 
 {% endblock %}
 
 {% block html_body %}
-    <div class="container">
-    <h1>cart</h1>
 
-    <div class="row">
-    <table class="table table-hover">
-        <thead class="thread-dark">
-        <tr>
-            <th scope="col">이름</th>
-            <th scope="col">가격</th>
-            <th scope="col">수량</th>
-            <th scope="col">썸네일</th>
-        </tr>
-        </thead>
-    <tbody>
-    {% for cart_item in cart_items %}
-        <tr>
-            <td>{{ cart_item.product.p_name }}</td>
-            <td>{{ cart_item.product.p_supply_price }}</td>
-            <td>{{ cart_item.quantity }}</td>
-            <td><img src="{{ cart_item.product.p_image_thumb.url }}" height="100" width="100"></td>
-            <td><a class="btn btn-secondary" href="{% url 'order:remove_cart' cart_item.product.pk %}">감소</a></td>
-            <td><a class="btn btn-secondary" href="{% url 'order:plus_cart' cart_item.product.pk %}">증가</a></td>
-            <td><a class="btn btn-secondary" href="{% url 'order:delete_cart' cart_item.product.pk %}">삭제</a></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-    </table>
+    <header>
+  <nav class="navbar navbar-expand-md mp-3 navbar-dark fixed-top pb-3 bg-dark text-light">
+
+    <div class="container-fluid">
+              {% if request.user.is_authenticated %}
+
+      <a class="navbar-brand" href="#">Shopping Mall</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+        <ul class="navbar-nav mb-2 mb-md-0 mx-4">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item mx-1">
+            <a class="nav-link" href="{% url 'product:list' %}">product</a>
+          </li>
+          <li class="nav-item px-1">
+            <p class="nav-link"> {{ request.user.username }} 님</p>
+          </li>
+          <li class="nav-item mx-1">
+            <a class="nav-link" href="{% url 'users:logout' %}">Log out</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link active" href="{% url 'order:cart_detail' %}">
+              <i class="bi bi-cart"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+          {% else %}
+
+      <a class="navbar-brand" href="#">Shopping Mall</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+        <ul class="navbar-nav mb-2 mb-md-0 mx-4">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item mx-1">
+            <a class="nav-link" href="{% url 'product:list' %}">product</a>
+          </li>
+          <li class="nav-item px-1">
+            <a class="nav-link" href="{% url 'users:login' %}">Log in</a>
+          </li>
+          <li class="nav-item mx-1">
+            <a class="nav-link" href="{% url 'users:signup' %}">Sign up</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a class="nav-link active" href="{% url 'order:cart_detail' %}">
+              <i class="bi bi-cart"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+          {% endif %}
+
+
+
+        <form class="d-flex" action="{% url 'search:s_results' %}" method="get">
+          <input class="form-control me-2" type="search" placeholder="" aria-label="Search" name="keyword">
+          <button class="btn btn-outline-success" type="submit">search</button>
+        </form>
+
         </div>
+  </nav>
 
-        <button class="btn btn-secondary">
-            <a class="btn-secondary" role="button" href="{% url 'order:checkout' %}">buy</a>
-        </button>
+</header>
 
-        <button class="btn btn-indigo">
-            <a class="btn btn-info" role="button" href="{% url 'product:home' %}">list</a>
+
+
+
+    <main class="bg-light mt-3">
+    <div class="container mt-5 mb-5 pt-5">
+    <div class="d-flex justify-content-center row">
+    <div class="col-md-8">
+    <div class="p-2">
+        <h2>cart</h2>
+{#        <div class="d-flex flex-row align-items-center pull-right"><span class="mr-1">Sort by:</span>#}
+{#            <span class="mr-1 font-weight-bold">Price</span><i class="fa fa-angle-right"></i>#}
+{#        </div>#}
+    </div>
+
+        {% for cart_item in cart_items %}
+                <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
+                <div class="mr-1"><img class="rounded" src="{{ cart_item.product.p_image_thumb.url }}" width="70"></div>
+                <div class="d-flex flex-column align-items-center product-details"><span class="font-weight-bold">{{ cart_item.product.p_name }}</span>
+{#                    <div class="d-flex flex-row product-desc">#}
+{#                        <div class="size mr-1"><span class="text-grey">Size:</span><span class="font-weight-bold">&nbsp;M</span></div>#}
+{#                        <div class="color"><span class="text-grey">Color:</span><span class="font-weight-bold">&nbsp;Grey</span></div>#}
+{#                    </div>#}
+                </div>
+                <div class="d-flex flex-row align-items-center qty">
+                    <a href="{% url 'order:remove_cart' cart_item.product.pk %}">
+                    <i class="fa fa-minus text-danger"></i>
+                    </a>
+                    <h5 class="text-grey mt-1 mr-2 ml-2">{{ cart_item.quantity }}</h5>
+                    <a href="{% url 'order:plus_cart' cart_item.product.pk %}">
+                    <i class="fa fa-plus text-success"></i>
+                    </a>
+                </div>
+                <div>
+                    <h5 class="text-grey">{{ cart_item.product.p_supply_price }} 원</h5>
+                </div>
+                <div class="d-flex align-items-center">
+                    <a href="{% url 'order:delete_cart' cart_item.product.pk %}">
+                        <i class="fa fa-trash fa-lg mb-1 text-danger"></i></a>
+                </div>
+            </div>
+
+        {% endfor %}
+{#    <div class="row">#}
+{#    <table class="table table-hover">#}
+{#        <thead class="thread-dark">#}
+{#        <tr>#}
+{#            <th scope="col">이름</th>#}
+{#            <th scope="col">가격</th>#}
+{#            <th scope="col">수량</th>#}
+{#            <th scope="col">썸네일</th>#}
+{#        </tr>#}
+{#        </thead>#}
+{#    <tbody>#}
+{#    {% for cart_item in cart_items %}#}
+{#        <tr>#}
+{#            <td>{{ cart_item.product.p_name }}</td>#}
+{#            <td>{{ cart_item.product.p_supply_price }}</td>#}
+{#            <td>{{ cart_item.quantity }}</td>#}
+{#            <td><img src="{{ cart_item.product.p_image_thumb.url }}" height="100" width="100"></td>#}
+{#            <td><a class="btn btn-secondary" href="{% url 'order:remove_cart' cart_item.product.pk %}">감소</a></td>#}
+{#            <td><a class="btn btn-secondary" href="{% url 'order:plus_cart' cart_item.product.pk %}">증가</a></td>#}
+{#            <td><a class="btn btn-secondary" href="{% url 'order:delete_cart' cart_item.product.pk %}">삭제</a></td>#}
+{#        </tr>#}
+{#    {% endfor %}#}
+{#    </tbody>#}
+{#    </table>#}
+{#        </div>#}
+
+
+    <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">
+        <button class="btn btn-warning btn-block btn-lg ml-2 pay-button" type="button">
+            <a class="text-black" role="button" href="{% url 'order:checkout' %}">buy</a>
         </button>
     </div>
+{#        <button class="btn btn-secondary">#}
+{#            <a class="btn-secondary" role="button" href="{% url 'order:checkout' %}">buy</a>#}
+{#        </button>#}
+
+        <button class="btn btn-indigo">
+            <a class="btn btn-info" role="button" href="{% url 'product:list' %}">list</a>
+        </button>
+    </div>
+    </div>
+    </div>
+    </main>
+
+
 {% endblock %}

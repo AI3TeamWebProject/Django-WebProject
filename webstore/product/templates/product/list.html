@@ -1,11 +1,18 @@
 {% extends 'base2.html' %}
+{% load bootstrap4 %}
 
 {% block html_header %}
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="../static/css/mdb.min.css" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="../static/css/style.min.css" rel="stylesheet">
+
 {% endblock %}
 
 {% block html_body %}
 
-     <header>
+    <header>
   <nav class="navbar navbar-expand-md mp-3 navbar-dark fixed-top pb-3 mb-3 bg-dark text-light">
 
     <div class="container-fluid">
@@ -79,18 +86,9 @@
 </header>
 
 
-
-
     <main>
 
     <section class="text-center mb-4 pt-5 mt-5 mx-lg-3">
-
-
-        <h1>검색 결과</h1>
-    <div class="row">
-        <span>검색어 : <b>"{{ query }}"</b></span>
-        <br><br>
-    </div>
 
         <!--Grid row-->
         <div class="row wow fadeIn mx-3">
@@ -186,4 +184,4 @@
     <div class="row"></div>
     </main>
 
-{%  endblock %}
+{% endblock %}

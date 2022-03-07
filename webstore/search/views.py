@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django import forms
 from django.db.models import Q
 from product.models import Product
+from django.core.paginator import Paginator
+
 
 # Create your views here.
 
@@ -29,8 +31,17 @@ def searchResult(request):
       Q(p_name__icontains=query) |
       Q(p_summary_desc__icontains=query)
     )
+    product_list = products
+    page = request.GET.get('page', '1')
+    paginator = Paginator(product_list, '8')
+    page_obj = paginator.page(page)
+    context = {
+      'query': query,
+      'page': page_obj,
+      'products': products,
+    }
 
-  return render(request, 'search/search_result.html', {"query": query, "products": products})
+  return render(request, 'search/search_result.html', context)
 
 
 def searchBox(request):
