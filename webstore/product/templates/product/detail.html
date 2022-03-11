@@ -2,139 +2,126 @@
 
 {% block content %}
 
-  <main class="mt-5 pt-4">
-    <div class="container dark-grey-text mt-5">
+<main class="mt-5 pt-4">
+<div class="container dark-grey-text mt-5">
 
-      <!--Grid row-->
-      <div class="row wow fadeIn">
+  <!--Grid row-->
+  <div class="row wow fadeIn">
 
-        <!--Grid column-->
-        <div class="col-md-6 mb-4">
+    <!--Grid column-->
+    <div class="col-md-6 mb-4">
+      <img src="{{ product.p_image_thumb.url }}" class="img-fluid" width="500" height="500">
+    </div>
+    <!--Grid column-->
 
-          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/14.jpg" class="img-fluid" alt="">
+    <!--Grid column-->
+    <div class="col-md-6 mb-4">
 
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-md-6 mb-4">
-
-          <!--Content-->
-          <div class="p-4">
-          <h1><p>{{ product.p_name }}</p></h1>
-
-            <div class="mb-3">
-              <a href="">
-                <span class="badge purple mr-1">{{ product.p_category }}</span>
-                  <--- 카테고리(Shirt)입니다.
-              </a>
-            </div>
-
-            <p class="lead">
-              {% if product.p_discount %}
-              <span class="mr-1">
-                <del>{{ product.p_price }} 원</del><-- 할인'전'가격
-              </span><br>
-              <span><b>{{ product.p_discount }} 원</b></span> <-- 할인'된'가격
-              {% else %}
-              <span>{{ product.p_price }} 원</span>
-              {% endif %}
-            </p>
-
-            <p class="lead font-weight-bold">Preview</p>
-            <p>{{ product.p_simple_desc }}</p><br>
-
-
-
-            {% comment %} <form class="d-flex justify-content-left">
-              <!-- Default input -->
-              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
-              <button class="btn btn-primary btn-md my-0 p" type="submit">
-                Add to cart
-                <i class="fas fa-shopping-cart ml-1"></i>
-              </button>
-
-            </form> {% endcomment %}
-            <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
-              Add to cart
-              <i class="fas fa-shopping-cart ml-1"></i>
-            </a>
-            <a href="{{ object.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
-              Remove from cart
-            </a>
-
+      <!--Content-->
+      <div class="p-4">
+          <div class="mb-3">
+              <span class="badge black mr-1">{{ product.p_category }}</span>
           </div>
-          <!--Content-->
+      <h1>{{ product.p_name }}</h1><br><br><br>
 
-        </div>
-        <!--Grid column-->
+          {% if product.p_discount %}
+          <p class="lead">
+          <span class="mr-1">
+              <del>{{ product.p_price }} 원</del>
+          </span>
+          <span class="lead font-weight-bold">{{ product.p_discount }} 원</span>
+          {% else %}
+          <p>판매가 {{ product.p_price }} 원</p>
+          {% endif %}
 
-      </div>
-      <!--Grid row-->
+        <br><br>
+        <p class="lead font-weight-bold">Summery Description</p>
+        <p>
+            {{ product.p_simple_desc }}
+        </p><br>
 
-      <hr>
 
-      <!--Grid row-->
-      <div class="row d-flex justify-content-center wow fadeIn">
 
-        <!--Grid column-->
-        <div class="col-md-6 text-center">
+        {% comment %} <form class="d-flex justify-content-left">
+          <!-- Default input -->
+          <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+          <button class="btn btn-primary btn-md my-0 p" type="submit">
+            Add to cart
+            <i class="fas fa-shopping-cart ml-1"></i>
+          </button>
 
-          <h4 class="my-4 h4">DETAIL INFO</h4>
-
-          <p>
-              현재 HTML위치는 product/detail.html 입니다.
-              <br><br>
-              장바구니 관련 버튼은 링크수정이 필요합니다.
-              <br><br>
-              이미지 링크들을 수정하지 않아 예시 이미지들이 표시되는 중입니다.
-              ADMIN에서 이미지 등록할 때 여러장을 등록할 수 있는 기능이 필요합니다.
-              <br>OR<br>
-              기능추가 없이 여러장을 한 장 으로 붙여서 업로드하면 됩니다.<br><br>
-              {{ product.p_detail_desc }} <-- admin에서 등록된 텍스트입니다.
-              <br><br>
-              하단 푸터는 footer.html을 확인하시면 됩니다.
-              <br><br>
-
-          </p>
-
-        </div>
-        <!--Grid column-->
-
-      </div>
-      <!--Grid row-->
-
-      <!--Grid row-->
-      <div class="row wow fadeIn">
-
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-12 mb-4">
-
-          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="">
-
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-6 mb-4">
-
-          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid" alt="">
-
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col-lg-4 col-md-6 mb-4">
-
-          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid" alt="">
-
-        </div>
-        <!--Grid column-->
+        </form> {% endcomment %}
+        <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
+          Add to cart
+          <i class="fas fa-shopping-cart ml-1"></i>
+        </a>
+        <a href="{{ object.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
+          Remove from cart
+        </a>
 
       </div>
-      <!--Grid row-->
+      <!--Content-->
 
     </div>
-  </main>
+    <!--Grid column-->
 
+  </div>
+  <!--Grid row-->
+
+    <br><br><hr><br>
+  <!--Grid row-->
+
+  <!--Grid row-->
+  <div class="row d-flex justify-content-center wow fadeIn">
+
+    <!--Grid column-->
+    <div class="col-md-12 text-center">
+
+
+
+      <h4 class="my-4 h4">DETAIL INFO</h4>
+
+      <p>
+          {{ product.p_detail_desc }} <-- admin에서 등록된 텍스트입니다.
+          <br><br>
+      </p>
+        <img src="{{ product.p_image_desc.url }}" width="800">
+
+    </div>
+    <!--Grid column-->
+
+  </div>
+  <!--Grid row-->
+<br><br><br><br><br><hr>
+</div>
+
+<div class="row d-flex justify-content-center wow fadeIn">
+
+    <!--Grid column-->
+    <div class="col-md-6 text-center">
+        <p>
+            <h4 class="my-4 h4">REVIEWS</h4>
+        </p>
+        {% for review in reviews %}
+        <div class="row review" style="margin:20px auto;">
+            <div class="col-sm-12">
+                <div class="card border-dark-grey">
+                    <div class="card-body" id="content">
+                        <h3 class="card-title">{{ review.r_point }}</h3>
+                        <h7 class="card-subtitle mb-2 text-muted">{{ review.r_author }} 님</h7>
+                        <p class="card-text"><h3>"{{ review.r_content}}"</h3></p>
+                    </div>
+                <div class="col-md-12" id="review_image">
+                    <img src="{{ review.r_image.url }}" width="100" height="100"><br>
+                </div><br>
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+    <hr>
+</main>
+    <hr>
 {% endblock content %}

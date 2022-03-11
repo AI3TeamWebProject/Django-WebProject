@@ -18,6 +18,13 @@ ADDRESS_CHOICES = (
     ('S', 'Shipping'),
 )
 
+REVIEW_POINT_CHOICES = (
+    ('★', '★'),
+    ('★★', '★★'),
+    ('★★★', '★★★'),
+    ('★★★★', '★★★★'),
+    ('★★★★★', '★★★★★'),
+)
 
 class Product(models.Model):
     p_name = models.CharField(max_length=30)
@@ -46,12 +53,13 @@ class Product(models.Model):
 
 
 class Review(models.Model):
+    r_product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    r_point = models.CharField(choices=REVIEW_POINT_CHOICES, max_length=10)
     r_title = models.CharField(max_length=50)  # 글 제목
     r_author = models.ForeignKey(Member, on_delete=models.CASCADE)
     r_content = models.CharField(max_length=200)  # 글 내용
     r_date = models.DateTimeField(auto_now=True)  # 글 작성시간
     r_image = models.ImageField(upload_to='static/img/')
-
 
     def __str__(self):
         return self.r_title
@@ -60,5 +68,4 @@ class Review(models.Model):
         verbose_name = '리뷰'
         verbose_name_plural = '리뷰'
         ordering = ['-r_date', ]
-
 
