@@ -6,6 +6,11 @@ from .models import Member
 from django.http import HttpResponse
 
 
+def logout(request):
+    django_logout(request)
+    return redirect('home')
+
+
 def login(request):
     login_form = LoginForm()
     context = {
@@ -18,8 +23,11 @@ def login_process(request):
     if request.method == 'POST':
 
         login_form = LoginForm(request.POST)
+
         username = login_form.data['username']
         password = login_form.data['password']
+
+
 
         # 이렇게 전달받은 username과 password를 이용해서 로그인 인증처리를 진행
         user = authenticate(username=username, password=password)
@@ -42,7 +50,6 @@ def signup(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)  # 사용자 인증
-            login(request)  # 로그인
             return redirect('home')
     else:
         form = UserForm()

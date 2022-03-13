@@ -5,9 +5,11 @@ from django.views.generic.base import TemplateView
 from django.conf.urls.static import static
 from django.conf import settings
 
+import search.views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='index.html'), name='home'),
+    path('', search.views.recommender, name='home'),
     path('product/', include('product.urls', namespace='product')),
     path('user/', include('users.urls', namespace='users')),
     path('order/', include('order.urls', namespace='order')),

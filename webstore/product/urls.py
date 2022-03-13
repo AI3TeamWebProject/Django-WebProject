@@ -9,4 +9,5 @@ app_name = 'product'
 urlpatterns = [
     path('', views.p_list , name='list'),
     path('<int:product_id>/', views.p_detail, name="p_detail"),
+    path('create_review/<int:product_id>/', views.review_create, name="review"),
 ]

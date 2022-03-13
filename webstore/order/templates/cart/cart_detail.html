@@ -21,7 +21,7 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
         <ul class="navbar-nav mb-2 mb-md-0 mx-4">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
           </li>
           <li class="nav-item mx-1">
             <a class="nav-link" href="{% url 'product:list' %}">product</a>
@@ -48,7 +48,7 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
         <ul class="navbar-nav mb-2 mb-md-0 mx-4">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
           </li>
           <li class="nav-item mx-1">
             <a class="nav-link" href="{% url 'product:list' %}">product</a>
@@ -114,7 +114,7 @@
                     </a>
                 </div>
                 <div>
-                    <h5 class="text-grey">{{ cart_item.product.p_supply_price }} 원</h5>
+                    <h5 class="text-grey">{{ cart_item.product.p_price }} 원</h5>
                 </div>
                 <div class="d-flex align-items-center">
                     <a href="{% url 'order:delete_cart' cart_item.product.pk %}">
@@ -165,7 +165,11 @@
     </div>
     </div>
     </div>
+
+
+
     </main>
+
 
 
 {% endblock %}
