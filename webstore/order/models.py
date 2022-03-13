@@ -21,6 +21,7 @@ class OrderInfo(models.Model):
     o_detailAddress = models.CharField(max_length=100)
     o_totalPrice = models.FloatField()
     o_mileage = models.IntegerField()
+
     coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):

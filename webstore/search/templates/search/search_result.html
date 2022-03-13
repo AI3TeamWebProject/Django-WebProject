@@ -96,7 +96,7 @@
         <div class="row wow fadeIn mx-3">
 
           <!--Grid column-->
-            {% for item in page %}
+            {% for item in products %}
           <div class="col-lg-3 col-md-6 mb-4">
 
             <!--Card-->
@@ -115,13 +115,13 @@
               <!--Card content-->
               <div class="card-body text-center">
                 <!--Category & Title-->
-                <a href="" class="grey-text">
-                  <h5>{{ item.p_category }}</h5>
-                </a>
+
                 <h5>
                   <strong>
                     <a href="{% url 'product:p_detail' item.pk %}" class="dark-grey-text">{{ item.p_name }}
-                      <span class="badge badge-pill danger-color">NEW</span>
+                                              {% if item.p_soldOut == True %}
+                      <span class="badge badge-pill danger-color">Sold Out</span>
+                        {% endif %}
                     </a>
                   </strong>
                 </h5>
@@ -143,43 +143,43 @@
 </div>
 
     <!-- 페이징처리 시작 -->
-    <div id="paging">
-        <ul class="pagination justify-content-center" style="margin-top: 2rem;">
-            <!-- 이전페이지 -->
-            {% if page.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?&page={{ page.previous_page_number }}">이전</a>
-                <!-- href로 뎁스 설정 -->
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
-            </li>
-            {% endif %}
-            <!-- 페이지리스트 -->
-            {% for page_number in page.paginator.page_range %}
-            {% if page_number == page.number %}
-            <li class="page-item active" aria-current="page">
-                <a class="page-link" href="?&page={{ page_number }}">{{ page_number }}</a>
-            </li>
-            {% else %}
-            <li class="page-item">
-                <a class="page-link" href="?&page={{ page_number }}">{{ page_number }}</a>
-            </li>
-            {% endif %}
-            {% endfor %}
-            <!-- 다음페이지 -->
-            {% if page.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?&page={{ page.next_page_number }}">다음</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
-            </li>
-            {% endif %}
-        </ul>
-    </div>
+{#    <div id="paging">#}
+{#        <ul class="pagination justify-content-center" style="margin-top: 2rem;">#}
+{#            <!-- 이전페이지 -->#}
+{#            {% if page.has_previous %}#}
+{#            <li class="page-item">#}
+{#                <a class="page-link" href="?&page={{ page.previous_page_number }}">이전</a>#}
+{#                <!-- href로 뎁스 설정 -->#}
+{#            </li>#}
+{#            {% else %}#}
+{#            <li class="page-item disabled">#}
+{#                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>#}
+{#            </li>#}
+{#            {% endif %}#}
+{#            <!-- 페이지리스트 -->#}
+{#            {% for page_number in page.paginator.page_range %}#}
+{#            {% if page_number == page.number %}#}
+{#            <li class="page-item active" aria-current="page">#}
+{#                <a class="page-link" href="?&page={{ page_number }}">{{ page_number }}</a>#}
+{#            </li>#}
+{#            {% else %}#}
+{#            <li class="page-item">#}
+{#                <a class="page-link" href="?&page={{ page_number }}">{{ page_number }}</a>#}
+{#            </li>#}
+{#            {% endif %}#}
+{#            {% endfor %}#}
+{#            <!-- 다음페이지 -->#}
+{#            {% if page.has_next %}#}
+{#            <li class="page-item">#}
+{#                <a class="page-link" href="?&page={{ page.next_page_number }}">다음</a>#}
+{#            </li>#}
+{#            {% else %}#}
+{#            <li class="page-item disabled">#}
+{#                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>#}
+{#            </li>#}
+{#            {% endif %}#}
+{#        </ul>#}
+{#    </div>#}
     <!-- 페이징처리 끝 -->
 
     </section>

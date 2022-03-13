@@ -7,7 +7,7 @@ class UserForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = Member
-        fields = ("username", "password1", "password2", "email", "address")
+        fields = ("username", "password1", "password2", "email", "address", "image",)
 
 class LoginForm(forms.ModelForm):
     class Meta:

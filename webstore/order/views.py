@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from product.models import Product
 from django.http import HttpResponse
+from django.contrib import messages
 from users.models import Member
 from order.models import Cart, CartItem
 from order.forms import OrderInfoForm
@@ -79,11 +80,16 @@ def cart_plus(request, item_id):
     return redirect('order:cart_detail')
 
 
+def some_function(request):
+    messages.warning(request, "장바구니에 해당 상품이 없습니다.")
+
+
 def cart_delete(request, item_id):
     cart = Cart.objects.get(cart_id=_cart_id(request))
     product = get_object_or_404(Product, id=item_id)
     cart_item = CartItem.objects.get(product=product, cart=cart)
     cart_item.delete()
+
     return redirect('order:cart_detail')
 
 
@@ -92,7 +98,7 @@ def total_price(request):
     cart_item = CartItem.objects.filter(cart=cart)
     total = 0
     for items in cart_item:
-        total += (items.product.p_supply_price * items.quantity)
+        total += (items.product.p_price * items.quantity)
 
     return total
 

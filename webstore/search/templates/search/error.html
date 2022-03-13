@@ -1,0 +1,12 @@
+{% extends 'base2.html' %}
+
+{% block html_body %}
+
+    {{ index }}
+    <br>
+    {% for i in recommend_product %}
+        {{ i.p_name }}
+        <br>
+    {% endfor %}
+
+{% endblock %}
